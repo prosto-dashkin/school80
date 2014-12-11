@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--html manifest="offline.appcache.php"-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Школа №80</title>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <script src="js/jquery-2.1.1.js"></script>    <!--/jquery-1.11.1.min.js-->
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+  </head>
+  <body>
+    <div data-role="page" id="main"  data-add-back-btn="true">
+      <div data-role="header" data-position="fixed">
+        <h1>Школа №80</h1>
+      </div>
+      <div data-role="content">
+        <div data-role="controlgroup" >
+          <a href="#news" id="view-news" data-role="button" data-icon="check">Новости</a>
+          <a href="#schedule" data-role="button" data-icon="info">Расписание</a>
+         <a href="#media" data-role="button" data-icon="star">Медиатека</a>
+         <a href="#calendar" data-role="button" data-icon="calendar">Календарь</a>
+        </div> 
+        <a href="login.html" data-role="button" data-ajax="false" data-transition="fade">Войти</a>
+      </div>
+
+      <center>
+        <div data-role="footer" data-position ="fixed" class="ui-bar">
+        <p>Санкт-Петребург, 2014-2015</p>
+        </div>
+      </center>
+    </div>
+
+    <div data-role="page" id="news" >
+      <div data-role="header" data-position="fixed" data-add-back-btn="true">
+        <h1>Новости</h1>
+       
+      </div>
+      <div data-role="content" id="news-content">
+        <a style = "display:none;" id="button1" href="javascript:addPages()" data-role="button"> Add Pages</a>
+        <div id="news-line"></div>
+        
+      </div>
+    </div>
+
+
+    <div data-role="page" id="schedule" >
+      <div data-role="header" data-position="fixed" data-add-back-btn="true">
+        <h1>Расписание</h1>
+      </div>
+      
+        <div data-role="content">
+          
+<div class="ui-field-contain">
+    <label for="select-native-17">1 option selected:</label>
+    <select name="select-native-17" id="select-native-17">
+        <option value="1">The 1st Option</option>
+        <option value="2">The 2nd Option</option>
+        <option value="3" selected="selected">The 3rd Option</option>
+        <option value="4">The 4th Option</option>
+    </select>
+</div>
+<div data-role="controlgroup">
+<legend>Расписание</legend>
+<select id="class" name="class">
+  <option value="0">5</option>
+  <option value="1">6</option>
+  <option value="2">7</option>
+  <option value="3">8</option>
+  <option value="4">9</option>
+  <option value="0">10</option>
+  <option value="1">11</option>
+  <option value="2">5</option>
+  <option value="3">6</option>
+  <option value="4">6</option>
+</select>
+<select id="size" name="size">
+<option value="l">X-Srnall</option>
+<!-- Очень маленький -->
+<option value="2">Small</option>
+<!-- Маленький -->
+140
+<option value="З">Medium</option>
+<!-- Средний -->
+<option value="4">Large</option>
+<!-- Большой -->
+<option value="5">X-Large</option>
+<!-- Очень большой -->
+</select>
+</div>
+
+        <div id="schedule-details" class="active">
+                      
+        </div>
+   
+
+     <div data-role="footer" data-position ="fixed" class="ui-bar">
+       
+          <div data-role="controlgroup" data-type='horizontal'>
+            <a href="#schedule-class" data-role="button" class="ui-btn-active" >Уроки</a>
+            <a href="#schedule-ring" data-role="button">Звонок</a>
+            <a href="#schedule-hobbie" data-role="button">Календарь</a>
+          </div>
+       
+
+    </div>
+  
+</div>
+
+<div data-role="page" id="media" >
+  <div data-role="header" data-position="fixed" data-add-back-btn="true">
+    <h1>Медиатека</h1>
+  </div>
+  <div data-role="content">
+    <p>
+      Фотографии и видео
+    </p>
+  </div>
+
+  <center>
+    <div data-role="footer" data-position ="fixed" class="ui-bar">
+      
+    </div>
+  </center>
+</div>
+    <div data-role="page" id="calendar" >
+  <div data-role="header" data-position="fixed" data-add-back-btn="true">
+    <h1>Календарь</h1>
+  </div>
+  <div data-role="content">
+    <p>
+      Календарь событий
+    </p>
+  </div>
+
+  <center>
+    <div data-role="footer" data-position ="fixed" class="ui-bar">
+      
+    </div>
+  </center>
+</div>
+ 
+</body>
+</html>

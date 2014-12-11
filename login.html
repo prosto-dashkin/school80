@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Школа №80</title>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+    <script src="js/jquery-2.1.1.js"></script>    <!--/jquery-1.11.1.min.js-->
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  </head>
+  <body>
+       
+ <div data-role="page" id="auth" >
+      <div data-role="header" data-position="fixed" >
+        <a href="index.html" data-icon="arrow-l" data-ajax="false">На главную</a>
+        <h1>Вход</h1>
+      </div>
+      <div data-role="content" >	
+        <p>Зайдите в личный кабинет и ....</p>
+        <form action="auth.php" method="POST" id="loginForm">
+        <div data-role="fieldcontain">
+          <label for="login">Логин</label>
+          <input type="text" name="login" id="login" value=""  />
+        </div>
+        <div data-role="fieldcontain">
+           <label for="pass">Пароль:</label>
+          <input type="password" name="pass" id="pass" value=""  />
+         </div>
+          <div data-role="fieldcontain">
+            <input type="submit" name="action" value="Войти"/>
+          </div>
+        </form>
+        <p id="output"></p>
+        <a href="#forgot" data-rel="dialog" data-transition="fade">Забыли пароль?</a>
+      </div>
+     
+    </div>   
+    <div data-role="dialog" id="forgot" >
+      <div data-role="header" data-position="fixed" data-add-back-btn="true">
+        <h1>Забыли пароль?</h1>
+      </div>
+      <div data-role="content" >	
+        <p>Если в личном кабинете Вы указали свой e-mail, введите его ниже, если нет, 
+          то обратитесь в школьный совет для получения нового пароля</p>
+        <form action="auth.php" method="post"> 
+          <div data-role="fieldcontain">
+          <label for="email">Ваш email:</label>
+          <input type="text" name="email" id="email" value=""  />
+          </div>
+          <div data-role="fieldcontain">
+          <button type="submit" name="action" value="forgot">Подтвердить</button>
+          </div>
+        </form>	
+      </div>
+     
+    </div>   
+</body>
+</html>
