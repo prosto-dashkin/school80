@@ -32,12 +32,18 @@ $(document).bind("mobileinit", function() {
 // загрузка страницы с расписание 
 
  $("#schedule").on("pageshow", function(){
+  var number = $('#class option:selected').val();
+  checkAvailableLetters(number);
+  var letter = $('#letter option:selected').val();
+  var grade = parseInt(number) + parseInt(letter);
+  var week = $('#weekday option:selected').val();
+  week = parseInt(week);
   if(window.localStorage != undefined) {
     // html5 localStorage доступен! 
     if(window.localStorage.getItem('schedule')!= undefined && 
        window.localStorage.getItem('schedule')!= null ) {
       // выводим расписание из локального файла  
-      showSchedule(window.localStorage.getItem('schedule'));
+      showSchedule(window.localStorage.getItem('schedule'), grade, week);
       $("#schedule-details").before("<p>проверка обновлений</p>");
       }
     else {
@@ -49,8 +55,11 @@ $(document).bind("mobileinit", function() {
       $("#schedule-details").before("<p>загрузка расписания</p>");
   }
     
+  //$.ajax("http://school80.16mb.com/resource/schedule.json", {
   $.ajax("http://localhost/school/public_html/resource/schedule.json", {
     complete: function(response) {
+    
+      
     if (window.localStorage != undefined) {
       if (window.localStorage.getItem('schedule') != undefined && 
         window.localStorage.getItem('schedule') != null) {
@@ -60,12 +69,12 @@ $(document).bind("mobileinit", function() {
         } else {
           // имеются изменения
           $("#schedule-details").before("расписание обнавлено, локальный файл устарел");
-          showSchedule(response.responseText);
+          showSchedule(response.responseText, grade, week);
         }
       } else {
       //локальная память доступна, но кэш не обнаружен
       $("#schedule-details").before("расписание обновлено и сохранено локально");
-      showSchedule(response.responseText);
+      showSchedule(response.responseText, grade, week);
     }
   }
 else {
@@ -73,7 +82,7 @@ else {
   //показываем информацию без сохранения
   $("#schedule-details").before("расписание обновлено");
   // Расписание обновлено
-  showSchedule(response.responseText);
+  showSchedule(response.responseText, grade, week);
 }
 },
 dataType: 'text' ,
@@ -87,8 +96,9 @@ error: function() {
   });
          $('#loginForm1').submit(function() {
          $('#output').html('Connecting....');
+         //var postTo = "http://school80.16mb.com/auth.php";
          var postTo = "http://localhost/school/public_html/auth.php";
-             $.post(postTo, { login: $('[name=login]').val(), pass: $('[name=pass]').val() },
+          $.post(postTo, { login: $('[name=login]').val(), pass: $('[name=pass]').val() },
                  function(data) {
                     if(data != "") {
                         //alert(data);
@@ -103,6 +113,12 @@ error: function() {
 
              return false;
          });
+         
+   // реагирует на изменение на странице расписания - выбор класса/ буквы/ день недели
+   $("#schedule").on("change", "#class", function() {
+      checkAvailableLetters($(this).val());
+   })
+   
   });  
 
 function addPages() {
@@ -116,9 +132,11 @@ $("#button1").hide();
 }};
 
 function loadNewsAjax() {
-$.ajax("http://localhost/school/public_html/lib/news.php");  
+//$.ajax("http://school80.16mb.com/lib/news.php");  
+$.ajax("http://localhost/school/public_html/lib/news.php");
 //Получаем JSОN-объект в текстовом виде для упрощения его хранения
 //в локальной памяти
+//$.ajax("http://school80.16mb.com/resource/news.json", {
 $.ajax("http://localhost/school/public_html/resource/news.json", {
 complete: function(response) {
   if (window.localStorage != undefined) {
@@ -190,7 +208,8 @@ function showNews (thenew) {
 ;
 // функция формирует таблицу расписания
 
-function showSchedule (timetable) {
+function showSchedule (timetable, grade, week) {
+  alert(grade +' '+ week);
   if (window.JSON != undefined) {
     schedule = JSON.parse(timetable);
   } else {
@@ -204,16 +223,21 @@ function showSchedule (timetable) {
   //weekdays[0] - массив понедельника, lessons[i] - урок №1, [0] - 5a класс
   
   //var lessons = schedule.timetable.weekdays[0].lessons[i][0];
-  //console.log(lessons); return false;
-   html += '<div ><ul>';
-  for (var i=0; i < schedule.timetable.weekdays[0].lessons.length; i++) {
+ 
+   html += '<sections id = "timetable" class = "ui-grid-b" >';
+  for (var i = 0; i < schedule.timetable.weekdays[week].lessons.length; i++) {
       // цикл расписания уроков от 1 до последнего для 5а класса
-      html += '<li>' + schedule.timetable.weekdays[0].lessons[i][0].discipline+
-         '</li>';
-    
+      if (schedule.timetable.weekdays[week].lessons[i][grade].discipline != ''){
+      html += '<span class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:20px">' + (i+1) +
+         '</div></span>';
+      html += '<span class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:20px">' + schedule.timetable.weekdays[week].lessons[i][grade].discipline +
+         '</div></span>';
+      html += '<span class="ui-block-c"><div class="ui-bar ui-bar-a" style="height:20px">' + schedule.timetable.weekdays[week].lessons[i][grade].placement +
+         '</div></span>';
+    }
   }
       // Это обычная информация о заседаниях
-      html += '</ul></div>';
+      html += '</sections>';
     
     
     $("#schedule-details").html(html);
@@ -258,6 +282,7 @@ function moreNews(index) {
 }
 
 function addLike(id, likes) {
+ // $.ajax("http://school80.16mb.com/lib/news.php", {
   $.ajax("http://localhost/school/public_html/lib/news.php", {
     data: {
       id: id,
@@ -269,4 +294,19 @@ function addLike(id, likes) {
   $('#like'+id).html(count);
   $('#addLike'+id).before('<p>Вам понравилось</p>');
   $('#addLike'+id).remove();
+}
+
+function checkAvailableLetters(grade) {
+  $('select#letter #g, #v').show();
+  switch(grade) {
+    case '0':
+    case '15':
+      $('select#letter #g').hide();
+      break;
+    case '18':
+    case '20':
+      $('select#letter #g, #v').hide();
+      break;
+  }
+  return true;
 }
